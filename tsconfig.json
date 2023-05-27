@@ -1,11 +1,11 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.main.json"
-    },
-    {
-      "path": "./tsconfig.test.json"
-    }
-  ]
+  "include": ["./src"],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "declaration": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "allowJs": true
+  }
 }
