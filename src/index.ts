@@ -5,6 +5,7 @@ import * as SVGDOM from "svgdom";
 import * as vm from "node:vm";
 import * as path from "node:path";
 import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 
 type MermaidFunctionKeys = {
   [K in keyof typeof Mermaid]: (typeof Mermaid)[K] extends (
@@ -22,9 +23,9 @@ export async function runNodeMermaidAsync<FN extends keyof MermaidFunctions>(
   name: FN,
   ...args: Parameters<MermaidFunctions[FN]>
 ): Promise<ReturnType<MermaidFunctions[FN]>> {
-  const __dirname = path.dirname(import.meta.url);
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  const mermaidSrc = path.join(__dirname, "../", "mermaid.min.js");
+  const mermaidSrc = path.join(__dirname, "../assets", "mermaid.min.js");
 
   const jsdom = new JSDOM(
     `
@@ -95,5 +96,5 @@ export async function runNodeMermaidAsync<FN extends keyof MermaidFunctions>(
 
 export async function render(code: string): Promise<string> {
   const result = await runNodeMermaidAsync("render", "graphDiv", code);
-  return result.svg as any as string;
+  return result.svg as string;
 }
