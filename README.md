@@ -1,5 +1,5 @@
-# node-mermaid
+# node-mermaid-render
 
-Running `mermaid` in nodejs environment using `node:vm`, `JSDOM` and `SVGDOM`.
+An simplified version of [mermaid-cli](https://github.com/mermaid-js/mermaid-cli/) with better API support, which can render Mermaid charts in Node.js environment.
 
-Largely inspired by the code of [diffhtml](https://github.com/tbranyen/diffhtml/) project.
+Most of its code is from [mermaid-cli](https://github.com/mermaid-js/mermaid-cli/).
