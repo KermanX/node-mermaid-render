@@ -6,7 +6,7 @@
     "declaration": true,
     "declarationMap": true,
     "module": "ESNext",
-    "target": "ESNext",
+    "target": "ES2019",
     "moduleResolution": "Node",
     "allowJs": true,
     "types": ["node"],

@@ -1,6 +1,6 @@
 {
   "name": "node-mermaid-render",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Render Mermaid charts in nodejs environment.",
   "homepage": "https://github.com/kermanx/node-mermaid-render#README",
   "main": "./dist/index.js",
@@ -10,18 +10,22 @@
     "README.md",
     "LICENSE",
     "dist/",
-    "lib/",
     "package.json"
   ],
-  "exports":{
+  "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "scripts": {
-    "build": "vite build && tsc",
-    "tsc": "tsc"
+    "build": "vite build && tsup"
   },
   "keywords": [
     "mermaid",
