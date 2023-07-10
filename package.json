@@ -1,7 +1,7 @@
 {
   "name": "node-mermaid-render",
-  "version": "1.0.1",
-  "description": "Render Mermaid charts in nodejs environment.",
+  "version": "1.0.2",
+  "description": "Render Mermaid charts in Node.js environment.",
   "homepage": "https://github.com/kermanx/node-mermaid-render#README",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

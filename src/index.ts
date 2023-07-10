@@ -33,8 +33,9 @@ async function renderMermaid(
     if (viewport) {
       await page.setViewport(viewport);
     }
-    const __dirname = url.fileURLToPath(new url.URL(".", import.meta.url));
-    const mermaidHTMLPath = path.join(__dirname, "index.html");
+    const dirname =
+      __dirname ?? url.fileURLToPath(new url.URL(".", import.meta.url));
+    const mermaidHTMLPath = path.join(dirname, "index.html");
     await page.goto(url.pathToFileURL(mermaidHTMLPath).href);
     await page.$eval(
       "body",
@@ -171,20 +172,39 @@ async function renderMermaid(
   }
 }
 
-export async function renderToSVG(
-  definition: string,
-  puppeteerConfig: PuppeteerLaunchOptions = {
-    headless: "new",
-  },
-  viewport?: Viewport,
-  backgroundColor: string | "transparent" = "white",
-  mermaidConfig: MermaidConfig = {},
-  myCSS?: CSSStyleDeclaration["cssText"]
-): Promise<RenderResult> {
-  const browser = await puppeteer.launch(puppeteerConfig);
-  try {
+export class NodeMermaidRender {
+  protected browser: Browser | null = null;
+
+  constructor(
+    public puppeteerConfig: PuppeteerLaunchOptions = {
+      headless: "new",
+    }
+  ) {}
+
+  public async launch() {
+    if (this.browser) {
+      return;
+    }
+    this.browser = await puppeteer.launch(this.puppeteerConfig);
+  }
+
+  public async close() {
+    if (!this.browser) {
+      return;
+    }
+    await this.browser.close();
+  }
+
+  public async renderToSVG(
+    definition: string,
+    viewport?: Viewport,
+    backgroundColor: string | "transparent" = "white",
+    mermaidConfig: MermaidConfig = {},
+    myCSS?: CSSStyleDeclaration["cssText"]
+  ): Promise<RenderResult> {
+    await this.launch();
     return await renderMermaid(
-      browser,
+      this.browser,
       definition,
       "svg",
       viewport,
@@ -192,28 +212,19 @@ export async function renderToSVG(
       mermaidConfig,
       myCSS
     );
-  } catch (e) {
-    throw e;
-  } finally {
-    await browser.close();
   }
-}
 
-export async function renderToPDF(
-  definition: string,
-  puppeteerConfig: PuppeteerLaunchOptions = {
-    headless: "new",
-  },
-  viewport?: Viewport,
-  backgroundColor: string | "transparent" = "white",
-  mermaidConfig: MermaidConfig = {},
-  myCSS?: CSSStyleDeclaration["cssText"],
-  pdfFit = false
-): Promise<RenderResult> {
-  const browser = await puppeteer.launch(puppeteerConfig);
-  try {
+  public async renderToPDF(
+    definition: string,
+    viewport?: Viewport,
+    backgroundColor: string | "transparent" = "white",
+    mermaidConfig: MermaidConfig = {},
+    myCSS?: CSSStyleDeclaration["cssText"],
+    pdfFit = false
+  ): Promise<RenderResult> {
+    await this.launch();
     return await renderMermaid(
-      browser,
+      this.browser,
       definition,
       "pdf",
       viewport,
@@ -222,27 +233,18 @@ export async function renderToPDF(
       myCSS,
       pdfFit
     );
-  } catch (e) {
-    throw e;
-  } finally {
-    await browser.close();
   }
-}
 
-export async function renderToPNG(
-  definition: string,
-  puppeteerConfig: PuppeteerLaunchOptions = {
-    headless: "new",
-  },
-  viewport?: Viewport,
-  backgroundColor: string | "transparent" = "white",
-  mermaidConfig: MermaidConfig = {},
-  myCSS?: CSSStyleDeclaration["cssText"]
-): Promise<RenderResult> {
-  const browser = await puppeteer.launch(puppeteerConfig);
-  try {
+  public async renderToPNG(
+    definition: string,
+    viewport?: Viewport,
+    backgroundColor: string | "transparent" = "white",
+    mermaidConfig: MermaidConfig = {},
+    myCSS?: CSSStyleDeclaration["cssText"]
+  ): Promise<RenderResult> {
+    await this.launch();
     return await renderMermaid(
-      browser,
+      this.browser,
       definition,
       "png",
       viewport,
@@ -250,9 +252,5 @@ export async function renderToPNG(
       mermaidConfig,
       myCSS
     );
-  } catch (e) {
-    throw e;
-  } finally {
-    await browser.close();
   }
 }

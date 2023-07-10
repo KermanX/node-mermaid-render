@@ -10,7 +10,7 @@
     "moduleResolution": "Node",
     "allowJs": true,
     "types": ["node"],
-    "lib": ["es2020", "DOM", "DOM.Iterable"],
+    "lib": ["es2019", "DOM", "DOM.Iterable"],
     "skipLibCheck": true
   }
 }
