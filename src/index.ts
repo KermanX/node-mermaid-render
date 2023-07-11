@@ -5,7 +5,6 @@ import puppeteer, {
 } from "puppeteer";
 import type { MermaidConfig, Mermaid } from "mermaid";
 
-import * as fs from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
 
@@ -178,6 +177,7 @@ export class NodeMermaidRender {
   constructor(
     public puppeteerConfig: PuppeteerLaunchOptions = {
       headless: "new",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     }
   ) {}
 
